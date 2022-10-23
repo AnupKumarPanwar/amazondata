@@ -1,4 +1,4 @@
-from amazon_data import user_agents
+from amazondata import user_agents
 from selectorlib import Extractor
 import requests
 import random
@@ -7,7 +7,7 @@ import random
 class SearchResultExtractor:
     def __init__(self):
         self._amazon_product_extractor = Extractor.from_yaml_file(
-            'amazon_data/amazon_search_result.yml')
+            'amazondata/amazon_search_result.yml')
 
     def __scrape(self, url):
         headers = {
