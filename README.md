@@ -1,5 +1,7 @@
 # amazondata
 
+[![PyPI version](https://badge.fury.io/py/amazondata.svg)](https://badge.fury.io/py/amazondata)
+
 A python package to get amazon product and search data in json form. The package does not require any API keys as it works by scraping the amazon page.
 
 ## Install
