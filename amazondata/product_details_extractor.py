@@ -128,8 +128,9 @@ class ProductDetailsExtractor:
             return self._amazon_product_extractor.extract(r.text)
 
     def __process_categories(self, data):
-        if data['categories']:
-            return data['categories'].split(' › ')
+        categories = data['categories']
+        if categories:
+            return categories.split(' › ')
         return None
 
     def __process_mrp(self, data):
@@ -179,8 +180,8 @@ class ProductDetailsExtractor:
     def __process_rating(self, data):
         rating1 = data['rating1']
         rating2 = data['rating2']
-        rating = next((rating for rating in [
-            rating1, rating2] if rating), None)
+        rating = next(
+            (rating for rating in [rating1, rating2] if rating), None)
 
         if rating:
             rating = rating.replace('out of 5 stars', '').strip()
@@ -206,7 +207,7 @@ class ProductDetailsExtractor:
                     }
                     processed_properties.append(property)
 
-        return processed_properties
+        return processed_properties or None
 
     def __process_product_details(self, data):
         processed_properties = []
@@ -226,16 +227,20 @@ class ProductDetailsExtractor:
                     }
                     processed_properties.append(property)
 
-        return processed_properties
+        return processed_properties or None
 
     def __process_store(self, data):
-        store = data['store'].replace(
-            'Visit the', '').replace('Store', '').replace('Brand:', '').strip()
+        store = data['store']
+        if store:
+            store = store.replace('Visit the', '').replace(
+                'Store', '').replace('Brand:', '').strip()
         return store
 
     def __process_number_of_ratings(self, data):
-        number_of_ratings = data['number_of_ratings'].replace(
-            'ratings', '').strip()
+        number_of_ratings = data['number_of_ratings']
+        if number_of_ratings:
+            number_of_ratings = number_of_ratings.replace(
+                'ratings', '').strip()
         return number_of_ratings
 
     def __clean_data(self, data):
