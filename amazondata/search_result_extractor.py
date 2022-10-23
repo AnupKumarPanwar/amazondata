@@ -3,11 +3,46 @@ from selectorlib import Extractor
 import requests
 import random
 
+YAML_STRING = """
+products:
+    css: 'div[data-component-type="s-search-result"]'
+    xpath: null
+    multiple: true
+    type: Text
+    children:
+        title:
+            css: 'h2 a.a-link-normal.a-text-normal'
+            xpath: null
+            type: Text
+        url:
+            css: 'h2 a.a-link-normal.a-text-normal'
+            xpath: null
+            type: Link
+        rating:
+            css: 'div.a-row.a-size-small span:nth-of-type(1)'
+            xpath: null
+            type: Attribute
+            attribute: aria-label
+        number_of_ratings:
+            css: 'div.a-row.a-size-small span:nth-of-type(2)'
+            xpath: null
+            type: Attribute
+            attribute: aria-label
+        price:
+            css: 'span.a-price:nth-of-type(1) span.a-offscreen'
+            xpath: null
+            type: Text
+        is_sponsored:
+            css: span.s-label-popover-default
+            xpath: null
+            type: Text
+"""
+
 
 class SearchResultExtractor:
     def __init__(self):
-        self._amazon_product_extractor = Extractor.from_yaml_file(
-            'amazondata/amazon_search_result.yml')
+        self._amazon_product_extractor = Extractor.from_yaml_string(
+            YAML_STRING)
 
     def __scrape(self, url):
         headers = {
