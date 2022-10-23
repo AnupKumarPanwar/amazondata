@@ -7,15 +7,6 @@ setup_args = dict(
     name='amazondata',
     version='0.0.1',
     description='A python package to get amazon product and search data in json form. The package does not require any API keys as it works by scraping the amazon page.',
-    py_modules=["amazondata"],
-    package_dir={'': 'amazondata'},
-    extras_require={
-        "dev": [
-            "pytest >= 3.7",
-            "check-manifest",
-            "twine"
-        ]
-    },
     long_description_content_type="text/markdown",
     long_description=README,
     license='MIT',
