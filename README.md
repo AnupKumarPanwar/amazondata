@@ -4,6 +4,8 @@
 
 A python package to get amazon product and search data in json form. The package does not require any API keys as it works by scraping the amazon page.
 
+Reference: [How To Scrape Amazon Product Details and Pricing using Python](https://medium.com/scrapehero/tutorial-how-to-scrape-amazon-product-details-using-python-56d40e7503b7)
+
 ## Install
 
 ```
