@@ -1,42 +1,40 @@
-from amazondata import user_agents
 from selectorlib import Extractor
 import requests
-import random
 
 YAML_STRING = """
 categories:
-    css: 'div.a-subheader ul.a-unordered-list'
+    css: '#wayfinding-breadcrumbs_feature_div'
     xpath: null
     type: Text
 title:
-    css: 'h1.a-size-large span.a-size-large'
+    css: '#productTitle'
     xpath: null
     type: Text
 selling_price1:
-    css: 'td.a-span12 span.a-price.a-size-medium span:nth-of-type(2)'
+    css: 'span.apexPriceToPay span.a-offscreen'
     xpath: null
     type: Text
 mrp1:
-    css: 'td.a-span12.a-color-secondary span.a-price span:nth-of-type(2)'
+    css: 'td.a-span12.a-color-secondary span[data-a-strike="true"] span.a-offscreen'
     xpath: null
     type: Text
 description:
-    css: 'div.a-section.a-spacing-medium span.a-list-item'
+    css: '#feature-bullets .a-list-item'
     xpath: null
     multiple: true
     type: Text
 attribute_keys1:
-    css: 'td.a-span3 span.a-size-base'
+    css: '#productOverview_feature_div .a-span3'
     xpath: null
     multiple: true
     type: Text
 attribute_values1:
-    css: 'td.a-span9 span.a-size-base'
+    css: '#productOverview_feature_div .a-span9'
     xpath: null
     multiple: true
     type: Text
 rating1:
-    css: 'div.centerColAlign span.reviewCountTextLinkedHistogram a.a-popover-trigger'
+    css: '#acrPopover'
     xpath: null
     type: Text
 mrp2:
@@ -70,11 +68,11 @@ ranks2:
     xpath: null
     type: Text
 number_of_ratings:
-    css: 'div.centerColAlign span.a-declarative span.a-size-base'
+    css: '#acrCustomerReviewText'
     xpath: null
     type: Text
 store:
-    css: 'div#bylineInfo_feature_div.celwidget div.a-section'
+    css: '#bylineInfo'
     xpath: null
     type: Text
 product_details_keys1:
