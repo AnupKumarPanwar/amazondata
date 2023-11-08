@@ -39,95 +39,82 @@ products:
 
 class SearchResultExtractor:
     def __init__(self):
-        self._amazon_product_extractor = Extractor.from_yaml_string(
-            YAML_STRING)
+        self._amazon_product_extractor = Extractor.from_yaml_string(YAML_STRING)
 
-    def __scrape(self, url):
-        headers = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'same-origin',
-            'Sec-Fetch-User': '?1',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
-            'device-memory': '8',
-            'downlink': '10',
-            'dpr': '2',
-            'ect': '4g',
-            'rtt': '250',
-            'sec-ch-device-memory': '8',
-            'sec-ch-dpr': '2',
-            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-ch-ua-platform-version': '"6.0"',
-            'sec-ch-viewport-width': '400',
-            'viewport-width': '400'
-        }
+    def __scrape(self, url, headers):
+        if not headers:
+            headers = {
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Sec-Fetch-Site": "none",
+                "Host": "www.amazon.in",
+                "Accept-Language": "en-IN,en-GB;q=0.9,en;q=0.8",
+                "Sec-Fetch-Mode": "navigate",
+                "Accept-Encoding": "gzip, deflate, br",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+                "Connection": "keep-alive",
+                "Upgrade-Insecure-Requests": "1",
+                "Sec-Fetch-Dest": "document",
+                "Priority": "u=0, i",
+            }
 
         r = requests.get(url, headers=headers)
 
         if r.status_code > 500:
             raise Exception(
-                "Page %s was blocked by Amazon. Please try using better proxies." % url)
+                "Page %s was blocked by Amazon. Please try using better proxies." % url
+            )
         else:
             return self._amazon_product_extractor.extract(r.text)
 
     def __process_rating(self, data):
-        if 'rating' in data:
-            rating = data['rating']
+        if "rating" in data:
+            rating = data["rating"]
 
             if rating:
-                rating = rating.replace('out of 5 stars', '').strip()
+                rating = rating.replace("out of 5 stars", "").strip()
 
             return rating
         return None
 
     def __process_number_of_ratings(self, data):
-        if 'number_of_ratings' in data:
-            number_of_ratings = data['number_of_ratings']
+        if "number_of_ratings" in data:
+            number_of_ratings = data["number_of_ratings"]
 
             if number_of_ratings:
-                number_of_ratings = int(
-                    number_of_ratings.replace(',', '').strip())
+                number_of_ratings = int(number_of_ratings.replace(",", "").strip())
 
             return number_of_ratings
         return None
 
     def __process_is_sponsored(self, data):
-        if 'is_sponsored' in data:
-            is_sponsored = data['is_sponsored']
-            if is_sponsored == 'Sponsored':
+        if "is_sponsored" in data:
+            is_sponsored = data["is_sponsored"]
+            if is_sponsored == "Sponsored":
                 return True
 
         return False
 
     def __process_url(self, data):
-        if 'url' in data:
-            url = data['url']
+        if "url" in data:
+            url = data["url"]
 
             if url:
-                url = 'https://www.amazon.in'+url
+                url = "https://www.amazon.in" + url
 
             return url
         return None
 
     def __process_data(self, data):
-        for product in data['products']:
-            product['rating'] = self.__process_rating(product)
-            product['number_of_ratings'] = self.__process_number_of_ratings(
-                product)
-            product['is_sponsored'] = self.__process_is_sponsored(product)
-            product['url'] = self.__process_url(product)
+        for product in data["products"]:
+            product["rating"] = self.__process_rating(product)
+            product["number_of_ratings"] = self.__process_number_of_ratings(product)
+            product["is_sponsored"] = self.__process_is_sponsored(product)
+            product["url"] = self.__process_url(product)
 
         return data
 
-    def search(self, query, page=1):
-        url = 'https://www.amazon.in/s?k='+query+'&page='+str(page)
-        data = self.__scrape(url)
+    def search(self, query, page=1, headers=None):
+        url = "https://www.amazon.in/s?k=" + query + "&page=" + str(page)
+        data = self.__scrape(url, headers)
         processed_data = self.__process_data(data)
         return processed_data
