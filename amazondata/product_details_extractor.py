@@ -142,6 +142,7 @@ class ProductDetailsExtractor:
         mrp1 = data["mrp1"]
         mrp2 = data["mrp2"]
         mrp = next((mrp for mrp in [mrp1, mrp2] if mrp), None)
+        mrp = mrp.replace("₹", "").strip()
         return mrp
 
     def __process_selling_price(self, data):
@@ -199,6 +200,9 @@ class ProductDetailsExtractor:
 
         if rating:
             rating = rating.replace("out of 5 stars", "").strip()
+
+        if rating:
+            rating = rating.split(" ")[0]
 
         return rating
 

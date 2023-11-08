@@ -57,4 +57,20 @@ print(data)
 
 ```
 
+NOTE: Optionally, you can pass custom `headers` to all these functions. The default headers value is:
 
+```
+headers = {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Sec-Fetch-Site": "none",
+            "Host": "www.amazon.in",
+            "Accept-Language": "en-IN,en-GB;q=0.9,en;q=0.8",
+            "Sec-Fetch-Mode": "navigate",
+            "Accept-Encoding": "gzip, deflate, br",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-Fetch-Dest": "document",
+            "Priority": "u=0, i",
+        }
+```
