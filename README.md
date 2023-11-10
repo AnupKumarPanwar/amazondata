@@ -59,7 +59,7 @@ print(data)
 
 NOTE: Optionally, you can pass custom `headers` to all these functions. The default headers value is:
 
-```
+```python
 headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Sec-Fetch-Site": "none",
@@ -73,4 +73,14 @@ headers = {
             "Sec-Fetch-Dest": "document",
             "Priority": "u=0, i",
         }
+```
+
+In case the the scraper gets blocked from Amazon, you can fetch the html code using selenium and pass the html code to the following function
+
+```python
+data = search_result_extractor.extract_search_results(html_code)
+```
+
+```python
+data = product_details_extractor.extract_product_details(html_code)
 ```

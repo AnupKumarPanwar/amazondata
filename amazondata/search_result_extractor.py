@@ -66,6 +66,9 @@ class SearchResultExtractor:
         else:
             return self._amazon_product_extractor.extract(r.text)
 
+    def __extract_search_results(self, html_code):
+        return self._amazon_product_extractor.extract(html_code)
+
     def __process_rating(self, data):
         if "rating" in data:
             rating = data["rating"]
@@ -116,5 +119,10 @@ class SearchResultExtractor:
     def search(self, query, page=1, headers=None):
         url = "https://www.amazon.in/s?k=" + query + "&page=" + str(page)
         data = self.__scrape(url, headers)
+        processed_data = self.__process_data(data)
+        return processed_data
+
+    def extract_search_results(self, html_code):
+        data = self.__extract_search_results(html_code)
         processed_data = self.__process_data(data)
         return processed_data

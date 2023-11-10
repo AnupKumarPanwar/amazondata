@@ -132,6 +132,9 @@ class ProductDetailsExtractor:
         else:
             return self._amazon_product_extractor.extract(r.text)
 
+    def __extract_product_details(self, html_content):
+        return self._amazon_product_extractor.extract(html_content)
+
     def __process_categories(self, data):
         categories = data["categories"]
         if categories:
@@ -310,5 +313,10 @@ class ProductDetailsExtractor:
     def get_product_from_asin_code(self, asin_code, headers=None):
         url = "https://www.amazon.in/dp/" + asin_code.upper()
         data = self.__scrape(url, headers)
+        processed_data = self.__process_data(data)
+        return processed_data
+
+    def extract_product_details(self, html_content):
+        data = self.__extract_product_details(html_content)
         processed_data = self.__process_data(data)
         return processed_data
